@@ -49,6 +49,64 @@ severity_table <- general_comorb %>%
   as_gt %>% 
   gt::gtsave("severity_table_stat.png")
 
+#severity two groups by two groups
+t1 <- general_comorb %>% 
+  tbl_summary(by=Severity) %>% 
+  modify_header(all_stat_cols() ~ "**{level}**") %>% 
+  add_overall()
+
+t2 <- general_comorb %>% 
+  filter(Severity!="Critical") %>% 
+  tbl_summary(by=Severity) %>% 
+  add_p()  %>% 
+  modify_table_styling(
+    columns = p.value,
+    rows = p.value < 0.001,
+    fmt_fun = scales::scientific
+  ) %>% 
+  modify_header(p.value ~ md("**Moderate vs. Severe**")) %>%
+  # hide summary stat columns
+  modify_column_hide(all_stat_cols()) %>% 
+  bold_p(t = 0.05, q = FALSE)
+
+t3 <- general_comorb %>% 
+  filter(Severity!="Moderate") %>% 
+  tbl_summary(by=Severity) %>% 
+  add_p() %>% 
+  modify_table_styling(
+    columns = p.value,
+    rows = p.value < 0.001,
+    fmt_fun = scales::scientific
+  ) %>% 
+  modify_header(p.value ~ md("**Severe vs. Critical**")) %>%
+  # hide summary stat columns
+  modify_column_hide(all_stat_cols()) %>% 
+  bold_p(t = 0.05, q = FALSE)
+
+t4 <- general_comorb %>% 
+  filter(Severity!="Severe") %>% 
+  tbl_summary(by=Severity) %>% 
+  add_p() %>% 
+  modify_table_styling(
+    columns = p.value,
+    rows = p.value < 0.001,
+    fmt_fun = scales::scientific
+  ) %>% 
+  modify_header(p.value ~ md("**Moderate vs. Critical**")) %>%
+  # hide summary stat columns
+  modify_column_hide(all_stat_cols()) %>% 
+  bold_p(t = 0.05, q = FALSE)
+
+sev_merged <- tbl_merge(list(t1, t2, t3, t4)) %>%
+  modify_spanning_header(
+    list(
+      all_stat_cols() ~ "**Severity**",
+      starts_with("p.value") ~ "**p-values**"
+    )
+  ) %>% 
+    as_gt() %>% 
+  gt::gtsave("severity_table_stat1.docx")
+
 #########################################
 #plots
 ggplot(general, aes(x=Severity, fill=Sex)) + 
