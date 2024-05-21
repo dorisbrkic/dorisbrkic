@@ -37,7 +37,8 @@ general_comorb <- read_xlsx("C:/Users/Doris/OneDrive - Prirodoslovno-matematičk
   mutate(Cardiovascular=hypertension + vascular_disease,
          Respiratory=pulmonary_disease,
          Metabolic= diabetes + thyroid_disease + anemia,
-         Other = kidney_disease + digestive_disease + cancer) %>% 
+         Other = kidney_disease + digestive_disease + cancer,
+         Severity=factor(Severity, levels=c("Moderate", "Severe", "Critical")))) %>% 
   dplyr::select(1,8,7,3,6, 25:28)
 
 #severity
@@ -105,7 +106,7 @@ sev_merged <- tbl_merge(list(t1, t2, t3, t4)) %>%
     )
   ) %>% 
     as_gt() %>% 
-  gt::gtsave("severity_table_stat1.docx")
+  gt::gtsave("severity_table_stat.docx")
 
 #########################################
 #plots
