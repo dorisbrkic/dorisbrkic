@@ -30,6 +30,16 @@ plink
   --out snps9_ann_comorb_qcfiltered_maf005
 
 #pruning
+plink 
+  --bfile snps9_ann_comorb_qcfiltered_maf005 
+  --indep 50 5 2 
+  --out snps9_ann_comorb_qcfiltered_maf005_pruned
+
+plink 
+  --bfile snps9_ann_comorb_qcfiltered_maf005 
+  --extract snps9_ann_comorb_qcfiltered_maf005_pruned.prune.in 
+  --make-bed 
+  --out comorb_maf005_pruneddata
 
 #PCA
 plink
