@@ -45,7 +45,11 @@ plink
 plink
   --bfile comorb_maf005_pruneddata
   --out comorb_maf005_pca_results
-  --pca
+  --pca 10
+
+#adding a header to the PCA file
+echo -e "FID\tIID\tPC1\tPC2\tPC3\tPC4\tPC5\tPC6\tPC7\tPC8\tPC9\tPC10" | cat - comorb_maf005_pca_results.eigenvec > comorb_maf005_pca_results_header.eigenvec
+
 
 #association with number of comorbidities
 plink
