@@ -1,3 +1,16 @@
+#!/bin/bash
+# ----------------QSUB Parameters-----------------
+#PBS -q q2
+#PBS -M dbrkic@bioinfo.hr
+#PBS -m n
+#PBS -N plink_assoc_comorb
+#PBS -l select=ncpus=15:mem=200g
+#PBS -j oe
+
+cd $PBS_O_WORKDIR
+
+###########################################################################################
+
 #making bed files
 #comorb_file.list contains number of comorbidities for each person
 plink
